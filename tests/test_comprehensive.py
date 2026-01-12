@@ -56,7 +56,8 @@ class TestSuite:
 
     def setup_script(self):
         """Copy the script to test directory."""
-        source_dir = Path("omnilens")
+        # Look in parent directory (root of project)
+        source_dir = Path(__file__).parent.parent / "omnilens"
         if source_dir.exists():
             shutil.copytree(source_dir, self.test_dir / "omnilens")
             self.script_path = self.test_dir / "omnilens" / "__main__.py"
@@ -582,8 +583,8 @@ def main():
     print("OmniLens - Comprehensive Test Suite")
     print("=" * 60)
 
-    # Check if script exists
-    if not Path("omnilens").exists():
+    # Check if script exists in parent directory (root of project)
+    if not Path(__file__).parent.parent / "omnilens" / "__init__.py":
         print("ERROR: omnilens package not found in current directory")
         sys.exit(1)
 

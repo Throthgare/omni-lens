@@ -13,12 +13,13 @@ from pathlib import Path
 
 @pytest.fixture
 def script_path():
-    """Path to the commit_gather_script.py file."""
-    return str(Path(__file__).parent / "commit_gather_script.py")
+    """Path to run the omnilens package."""
+    # Return the path to the package root for PYTHONPATH
+    return str(Path(__file__).parent.parent)
 
 @pytest.fixture
 def repo_path():
-    """Path to the test repository."""
+    """Path to the test repository (in tests folder)."""
     test_repo = Path(__file__).parent / "test_repo"
     if not test_repo.exists():
         pytest.skip("Test repository not found. Please create it first.")
@@ -27,9 +28,10 @@ def repo_path():
 def test_help(script_path):
     """Test that help message displays correctly."""
     result = subprocess.run(
-        ["python3", script_path, "--help"],
+        ["python3", "-m", "omnilens", "--help"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
     assert "--author" in result.stdout
@@ -39,9 +41,10 @@ def test_non_git_directory(script_path):
     """Test that script exits gracefully in non-git directory."""
     with tempfile.TemporaryDirectory() as tmpdir:
         result = subprocess.run(
-            ["python3", script_path, tmpdir],
+            ["python3", "-m", "omnilens", tmpdir],
             capture_output=True,
-            text=True
+            text=True,
+            env={**__import__("os").environ, "PYTHONPATH": script_path}
         )
         assert result.returncode != 0
         assert "Not a git repository" in result.stderr
@@ -49,9 +52,10 @@ def test_non_git_directory(script_path):
 def test_invalid_path(script_path):
     """Test that script exits with error for non-existent path."""
     result = subprocess.run(
-        ["python3", script_path, "/nonexistent/path/to/repo"],
+        ["python3", "-m", "omnilens", "/nonexistent/path/to/repo"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode != 0
     assert "does not exist" in result.stderr
@@ -59,9 +63,10 @@ def test_invalid_path(script_path):
 def test_git_repository(script_path, repo_path):
     """Test that script runs correctly in a git repository."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
     assert "Found" in result.stdout
@@ -70,9 +75,10 @@ def test_git_repository(script_path, repo_path):
 def test_verbose_mode(script_path, repo_path):
     """Test verbose mode shows debug information."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc", "--verbose"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc", "--verbose"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
     assert "[DEBUG]" in result.stderr
@@ -81,9 +87,10 @@ def test_json_output(script_path, repo_path):
     """Test that JSON output is valid."""
     output_file = os.path.join(repo_path, "test_output.json")
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc", "--output", output_file],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc", "--output", output_file],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
 
     assert result.returncode == 0
@@ -110,36 +117,40 @@ def test_json_output(script_path, repo_path):
 def test_since_filter(script_path, repo_path):
     """Test that --since filter works."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc", "--since", "2020-01-01"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc", "--since", "2020-01-01"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
 
 def test_until_filter(script_path, repo_path):
     """Test that --until filter works."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc", "--until", "2030-12-31"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc", "--until", "2030-12-31"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
 
 def test_author_filter(script_path, repo_path):
     """Test that --author filter works."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc", "--author", ".*"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc", "--author", ".*"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
 
 def test_category_breakdown(script_path, repo_path):
     """Test that category breakdown is displayed."""
     result = subprocess.run(
-        ["python3", script_path, repo_path, "--no-loc"],
+        ["python3", "-m", "omnilens", repo_path, "--no-loc"],
         capture_output=True,
-        text=True
+        text=True,
+        env={**__import__("os").environ, "PYTHONPATH": script_path}
     )
     assert result.returncode == 0
     assert "Category Breakdown:" in result.stdout

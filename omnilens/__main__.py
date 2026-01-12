@@ -1921,7 +1921,7 @@ Examples:
     parser.add_argument("--format", default="json", choices=["json", "markdown", "html", "csv"], help="Output format")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose output")
     parser.add_argument("--no-loc", action="store_true", help="Skip LOC counting (faster)")
-    parser.add_argument("--no-git", action="store_true", help="Skip git analysis (works without git repo)")
+    parser.add_argument("--no-git", action="store_true", help="Skip git analysis (auto-detected if no git repo)")
     parser.add_argument("--no-classes", action="store_true", help="Skip class extraction")
     parser.add_argument("--all", action="store_true", help="Include merge commits (default excludes them)")
     parser.add_argument("--snip-format", default="short", choices=["short", "long"],
@@ -1959,14 +1959,23 @@ Examples:
         print(f"[ERROR] Path is not a directory: {repo_path}", file=sys.stderr)
         sys.exit(1)
 
+    # Auto-detect git repository
+    git = GitIntelligence(repo_path, verbose=args.verbose)
+    is_git_repo = git.is_git_repository()
+    
+    # Auto-enable --no-git if no git repository detected
+    if not is_git_repo and not args.no_git:
+        if args.verbose:
+            print(f"[INFO] No git repository detected at {repo_path}, enabling --no-git mode")
+        args.no_git = True
+    
+    code = CodebaseAnalyzer(repo_path, verbose=args.verbose, skip_git=args.no_git)
+
+    is_git = not args.no_git and is_git_repo
+    
     # Parse relative dates
     since = parse_relative_date(args.since) if args.since else None
     until = parse_relative_date(args.until) if args.until else None
-
-    git = GitIntelligence(repo_path, verbose=args.verbose)
-    code = CodebaseAnalyzer(repo_path, verbose=args.verbose, skip_git=args.no_git)
-
-    is_git = not args.no_git and git.is_git_repository()
     
     if not is_git and not args.no_git:
         print(f"[ERROR] Not a git repository: {repo_path}", file=sys.stderr)

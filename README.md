@@ -4,9 +4,9 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![OmniLens Report Preview](samples/sample_report_preview.png)
+![OmniLens Report Preview](samples/sample_report.html)
 
-*Interactive HTML report showing codebase analysis with charts and metrics*
+*View the interactive HTML report at [samples/sample_report.html](samples/sample_report.html)*
 
 OmniLens is a professional-grade code analysis tool that provides comprehensive insights into your codebase. It analyzes git repositories and generates detailed reports on code quality, complexity, technical debt, and more.
 
@@ -58,6 +58,8 @@ omnilens --format html --output report.html
 omnilens --tech-debt --complexity
 ```
 
+**Note:** OmniLens automatically detects whether you're in a git repository. If no git repo is found, it automatically enables `--no-git` mode and analyzes files directly.
+
 ### Advanced Examples
 ```bash
 # Filter by date and author
@@ -81,22 +83,34 @@ omnilens --deps --format html
 | Option | Description |
 |--------|-------------|
 | `path` | Path to repository (default: current directory) |
-| `--since DATE` | Start date for analysis |
-| `--until DATE` | End date for analysis |
-| `--author PATTERN` | Filter by author (regex supported) |
-| `--output FILE` | Output file path |
-| `--format FORMAT` | Output format: json, markdown, html, csv |
+| `--since DATE` | Start date for analysis (e.g., '2023-01-01' or '2 weeks ago') |
+| `--until DATE` | End date for analysis (e.g., 'yesterday') |
+| `--author PATTERN` | Filter commits by author (supports regex) |
+| `--output FILE` | Output file path (default: intelligence_report.json) |
+| `--format FORMAT` | Output format: json, markdown, html, csv (default: json) |
+| `--verbose, -v` | Enable verbose output |
+| `--no-loc` | Skip LOC counting (faster) |
+| `--no-git` | Skip git analysis (auto-detected if no git repo) |
+| `--no-classes` | Skip class extraction |
+| `--all` | Include merge commits (default excludes them) |
+| `--snip-format FORMAT` | Code snippet format: short (1-20 lines) or long (10-50 lines) |
+| `--deep-level LEVEL` | Depth of file analysis: 1=basic, 2=detailed, 3=comprehensive, all=maximum |
+| `--progress` | Show progress bar for large repos |
+| `--export-csv FILE` | Export commits to CSV file |
+| `--export-classes-csv FILE` | Export classes to CSV file |
 | `--tech-debt` | Calculate technical debt metrics |
 | `--complexity` | Calculate complexity metrics |
-| `--html` | Generate HTML report |
-| `--export-csv FILE` | Export commits to CSV |
-| `--export-classes-csv FILE` | Export classes to CSV |
+| `--html` | Generate HTML report (shorthand for --format html) |
 | `--interactive` | Run in interactive TUI mode |
-| `--progress` | Show progress bar |
-| `--verbose` | Enable verbose output |
-| `--no-cache` | Disable caching |
+| `--config FILE` | Path to config file (YAML) |
+| `--diff BRANCH` | Compare with specified branch (e.g., 'main..feature') |
 | `--exclude-dirs PATS` | Comma-separated directories to exclude |
 | `--exclude-files PATS` | Comma-separated files to exclude |
+| `--deps` | Extract dependency graph |
+| `--ai-summary` | Generate AI summary (requires OpenAI key) |
+| `--no-cache` | Disable caching |
+| `--tree-sitter` | Force Tree-Sitter parsing (default: auto) |
+| `--version` | Show version number |
 
 ## Output Formats
 
