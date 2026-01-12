@@ -1,0 +1,158 @@
+# OmniLens
+
+[![PyPI version](https://badge.fury.io/py/omnilens.svg)](https://pypi.org/project/omnilens/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+OmniLens is a professional-grade code analysis tool that provides comprehensive insights into your codebase. It analyzes git repositories and generates detailed reports on code quality, complexity, technical debt, and more.
+
+## Features
+
+- **Git Repository Analysis**: Deep analysis of commit history, authors, and changes
+- **Code Metrics**: Cyclomatic complexity, maintainability index, and technical debt calculation
+- **Multi-Language Support**: Supports 80+ programming languages with syntax-aware parsing
+- **Tree-Sitter Integration**: Accurate AST parsing for precise class/function detection
+- **Interactive Reports**: HTML reports with interactive charts and visualizations
+- **CSV Export**: Export commits and classes data for further analysis
+- **Dependency Graph**: Extract and visualize code dependencies
+- **Branch Comparison**: Compare different branches or commits
+- **Progress Tracking**: Real-time progress bars for large repositories
+- **Configurable**: Extensive configuration options and exclude patterns
+
+## Installation
+
+### From PyPI
+```bash
+pip install omnilens
+```
+
+### From Source
+```bash
+git clone https://github.com/Throthgare/omni-lens.git
+cd omni-lens
+pip install .
+```
+
+## Usage
+
+### Basic Usage
+```bash
+# Analyze current directory
+omnilens
+
+# Analyze specific repository
+omnilens /path/to/repo
+
+# Generate HTML report
+omnilens --format html --output report.html
+
+# Analyze with tech debt metrics
+omnilens --tech-debt --complexity
+```
+
+### Advanced Examples
+```bash
+# Filter by date and author
+omnilens --since "2 weeks ago" --author "John Doe"
+
+# Export data to CSV
+omnilens --export-csv commits.csv --export-classes-csv classes.csv
+
+# Compare branches
+omnilens --diff main..feature
+
+# Interactive mode
+omnilens --interactive
+
+# Dependency analysis
+omnilens --deps --format html
+```
+
+## Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `path` | Path to repository (default: current directory) |
+| `--since DATE` | Start date for analysis |
+| `--until DATE` | End date for analysis |
+| `--author PATTERN` | Filter by author (regex supported) |
+| `--output FILE` | Output file path |
+| `--format FORMAT` | Output format: json, markdown, html, csv |
+| `--tech-debt` | Calculate technical debt metrics |
+| `--complexity` | Calculate complexity metrics |
+| `--html` | Generate HTML report |
+| `--export-csv FILE` | Export commits to CSV |
+| `--export-classes-csv FILE` | Export classes to CSV |
+| `--interactive` | Run in interactive TUI mode |
+| `--progress` | Show progress bar |
+| `--verbose` | Enable verbose output |
+| `--no-cache` | Disable caching |
+| `--exclude-dirs PATS` | Comma-separated directories to exclude |
+| `--exclude-files PATS` | Comma-separated files to exclude |
+
+## Output Formats
+
+### JSON (Default)
+Structured data for programmatic use.
+
+### Markdown
+Human-readable summary report.
+
+### HTML
+Interactive web report with charts and visualizations.
+
+### CSV
+Tabular data for spreadsheet analysis.
+
+## Sample Report
+
+```
+OmniLens Report
+
+## Overview
+- Path: /path/to/repo
+- Analyzed At: 2024-01-11T12:00:00
+- Total Files: 150
+- Lines of Code: 12500
+- Git Repository: Yes
+
+## Code Elements
+- Classes: 45
+- Functions: 320
+- Languages: Python (60%), JavaScript (25%), Go (15%)
+
+## Commit History
+- Total Commits: 250
+- Contributors: 8
+- Most Active: John Doe (120 commits)
+
+## Code Quality
+- Cyclomatic Complexity: 2.3 (avg)
+- Technical Debt: Low
+- Maintainability Index: 78/100
+```
+
+## Requirements
+
+- Python 3.8+
+- Git (for repository analysis)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you find this tool useful, please consider starring the repository on GitHub!
+
+For issues and questions, please open an issue on the [GitHub repository](https://github.com/Throthgare/omni-lens/issues).
