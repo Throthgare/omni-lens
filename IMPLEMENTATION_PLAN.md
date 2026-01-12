@@ -6,7 +6,8 @@ This plan outlines the implementation of 13 major enhancements to OmniLens.
 ## Information Gathered
 
 ### Current State Analysis
-- **Main Script**: `commit_gather_script.py` (1200+ lines)
+- **Main Package**: `omnilens/` (Python package with CLI)
+- **Entry Point**: `omnilens.__main__.py` (2100+ lines)
 - **Existing Features**:
   - Git history analysis with commit parsing
   - 80+ language extensions support
@@ -37,7 +38,7 @@ This plan outlines the implementation of 13 major enhancements to OmniLens.
 ## Plan: Implementation of All Requested Features
 
 ### Step 1: Enhanced JS/TS Parsing
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Changes**:
 1. Add TypeScript interface/interface extraction regex patterns
@@ -64,7 +65,7 @@ ENUM_RE = re.compile(r'^(?:export\s+)?(?:const\s+)?enum\s+(\w+)')
 ```
 
 ### Step 2: Ruby, PHP, C# Parsing Support
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Ruby Parser**:
 ```python
@@ -94,7 +95,7 @@ CSHARP_USING_RE = re.compile(r'^using\s+([^\s;]+);')
 ```
 
 ### Step 3: Tech Debt Calculation
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -131,7 +132,7 @@ def calculate_tech_debt_metrics(commits: List[CommitInfo]) -> Dict:
 ```
 
 ### Step 4: Progress Bar for Large Repos
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 - Add `tqdm` import for progress bars
@@ -143,7 +144,7 @@ def calculate_tech_debt_metrics(commits: List[CommitInfo]) -> Dict:
   - Report generation
 
 ### Step 5: Better Exclude Patterns
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Enhanced Exclude List**:
 ```python
@@ -166,7 +167,7 @@ DEFAULT_EXCLUDE_FILES = [
 ```
 
 ### Step 6: CSV Export
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -216,7 +217,7 @@ def export_classes_csv(classes: List[ClassInfo], output_path: str):
 ```
 
 ### Step 7: Import/Dependency Extraction
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -268,7 +269,7 @@ class DependencyAnalyzer:
 ```
 
 ### Step 8: Complexity Metrics
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -317,7 +318,7 @@ def calculate_code_metrics(file_path: str, lines: List[str]) -> Dict:
 ```
 
 ### Step 9: HTML Report Generation
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -411,7 +412,7 @@ def generate_html_report(output: Dict) -> str:
 ```
 
 ### Step 10: Config File Support
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -454,7 +455,7 @@ def load_config(config_path: Path) -> Dict:
 ```
 
 ### Step 11: Interactive TUI Mode
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation** using standard library (no external dependencies):
 ```python
@@ -509,7 +510,7 @@ class InteractiveTUI:
 ```
 
 ### Step 12: Diff Mode for Comparing Branches
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -550,7 +551,7 @@ def compare_branches(
 ```
 
 ### Step 13: Enhanced Breaking Change Detection
-**File**: `commit_gather_script.py`
+**File**: `omnilens/__main__.py`
 
 **Implementation**:
 ```python
@@ -591,7 +592,7 @@ def detect_breaking_changes(commits: List[CommitInfo]) -> List[Dict]:
 
 ## Files to Modify
 
-### `commit_gather_script.py`
+### `omnilens/__main__.py`
 - Add all new imports (csv, typing extensions)
 - Add new regex patterns for JS/TS, Ruby, PHP, C#
 - Add `TechDebtCalculator` class
